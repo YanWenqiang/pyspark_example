@@ -88,7 +88,7 @@ def extract_clicklog(line):
             uid, uuid, page, time, unk1, unk2 = tmp[0].split('#')
             query = uncode(tmp[1])
             res = [query, [], []]
-            for d in table:
+            for d in table.value:
                 if strStr(query, d) != -1:
                     res[1].append(d)
             if len(res[1]) == 0:
@@ -105,7 +105,7 @@ def extract_clicklog(line):
             uid, uuid, page, time, unk1, unk2, stype, chanel, source = tmp[0].split('#')
             query = uncode(tmp[1])
             res = [query, [], []]
-            for d in table:
+            for d in table.value:
                 if strStr(query, d) != -1:
                     res[1].append(d)
             if len(res[1]) == 0:
@@ -120,7 +120,7 @@ def extract_clicklog(line):
         uid, uuid, page, time, unk1, unk2, stype, chanel, source = tmp[0].split('#')
         query = uncode(tmp[1])
         res = [query, [], []]
-        for d in table:
+        for d in table.value:
             if strStr(query, d) != -1:
                 res[1].append(d)
         if len(res[1]) == 0:
@@ -152,6 +152,7 @@ if __name__ == "__main__":
     table_path = sys.argv[1]
     table = sc.textFile(table_path)
     table = table.collect()
+    table = sc.broadcast(table)
     
     # 读一天的点击日志
     click_path = sys.argv[2]
